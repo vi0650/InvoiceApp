@@ -1,0 +1,159 @@
+<mat-card class="invoice-page mat-elevation-z4">
+    <div class="page-header">
+        <button mat-icon-button (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <h2>{{ isUpdate ? "Update Invoice" : "Add New Invoice" }}</h2>
+
+        <div class="header-actions">
+            <button mat-flat-button color="primary" (click)="saveInvoice()">
+                {{ isUpdate ? 'Update' : 'Add' }}
+            </button>
+        </div>
+    </div>
+
+    <form [formGroup]="invoiceForm" class="form-grid">
+        <div class="invoice-layout">
+            <div class="left-panel">
+                <mat-card class="section-card">
+                    <h3>Customer</h3>
+
+                    <div class="customer-grid">
+                        <mat-form-field>
+                            <mat-label>Customer</mat-label>
+                            <mat-select formControlName="customerId" (selectionChange)="onCustomerChange($event.value)">
+                                <mat-option *ngFor="let c of customers" [disabled]="!c.isActive" [value]="c.customerId">
+                                    {{ c.customerName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="invoiceForm.get('customerId')?.hasError('required') && invoiceForm.get('customerId')?.touched">
+                                Customer is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Phone No</mat-label>
+                            <input matInput formControlName="mobileNo" readonly />
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" readonly />
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Invoice Date</mat-label>
+                            <input matInput [matDatepicker]="dp" formControlName="invoiceDate" />
+                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                            <mat-datepicker #dp></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                            <mat-label>Address</mat-label>
+                            <textarea matInput rows="2" formControlName="address" readonly></textarea>
+                        </mat-form-field>
+                    </div>
+                </mat-card>
+
+                <mat-card class="section-card">
+                    <h3>Items Details</h3>
+
+                    <div formArrayName="invoiceItems">
+                        <div class="item-header">
+                            <span>Item</span>
+                            <span>Rate</span>
+                            <span>Qty</span>
+                            <span>GST</span>
+                            <span>Amount</span>
+                            <span></span>
+                        </div>
+                        <mat-divider class="divider" />
+                        <div class="item-row" *ngFor="let item of invoiceItems.controls; let i = index"
+                            [formGroupName]="i">
+
+                            <mat-form-field>
+                                <mat-label>Product</mat-label>
+                                <mat-select formControlName="productId" (selectionChange)="onProductChange(i)">
+                                    <mat-option *ngFor="let p of products" [disabled]="!p.isActive" [value]="p.productId">
+                                        {{ p.productName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Rate</mat-label>
+                                <input matInput type="number" formControlName="rate" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Qty</mat-label>
+                                <input matInput type="number" formControlName="qty" (input)="calculateItemAmount(i)">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>GST</mat-label>
+                                <mat-select formControlName="rateId" (selectionChange)="onGstChange(i)">
+                                    <mat-option *ngFor="let g of gstRates" [disabled]="!g.isActive" [value]="g.rateId">{{ g.gst / 100 | percent }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                            <div class="amount">{{ invoiceItems.at(i).get('amount')?.value | currency:'INR' }}</div>
+
+                            <button mat-icon-button color="warn" (click)="removeItem(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button mat-stroked-button color="primary" (click)="addItem()">+ Add Item</button>
+                </mat-card>
+
+                <mat-card class="section-card">
+                    <mat-form-field style="width: 10rem;">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="invoiceStatus">
+                            <mat-option value="draft">Draft</mat-option>
+                            <mat-option value="sent">Sent</mat-option>
+                            <mat-option value="paid">Paid</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Notes / Terms</mat-label>
+                        <textarea class="notes" matInput formControlName="description"
+                            placeholder="Enter notes or terms"></textarea>
+                    </mat-form-field>
+                </mat-card>
+            </div>
+
+            <div class="right-panel">
+                <mat-card class="summary-card">
+                    <h3>Invoice Summary</h3>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>{{ invoiceForm.value.subTotal | currency:'INR' }}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>GST</span>
+                        <span>{{ invoiceForm.value.gstAmount | currency:'INR' }}</span>
+                    </div>
+
+                    <div class="summary-row total">
+                        <span>Grand Total</span>
+                        <span>{{ invoiceForm.value.grandTotal | currency:'INR' }}</span>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </form>
+    <div class="btn-row">
+        <button mat-flat-button color="primary" (click)="saveInvoice()">
+            {{ isUpdate ? 'Update' : 'Add' }}
+        </button>
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
+    </div>
+</mat-card>

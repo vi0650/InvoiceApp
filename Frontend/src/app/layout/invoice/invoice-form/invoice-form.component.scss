@@ -1,0 +1,133 @@
+.invoice-page {
+  padding: 24px;
+  max-width: 1400px;
+  margin: auto;
+  border-radius: 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.page-header h2 {
+  flex: 1;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.invoice-layout {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 24px;
+}
+
+.section-card {
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.section-card h3 {
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.customer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.customer-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.item-header,
+.item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.divider{
+  padding-bottom: 1rem;
+}
+
+.item-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.item-row {
+  background: #f8f9fc;
+  padding: 0.5rem;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.amount {
+  text-align: right;
+  font-weight: 700;
+}
+
+.summary-card {
+  width: 100%;
+  max-width: 280px;
+  position: sticky;
+  top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+
+  h3{
+    padding-bottom: 1rem;
+  }
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-row.total {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.notes {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.btn-row {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .invoice-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    position: static;
+  }
+}

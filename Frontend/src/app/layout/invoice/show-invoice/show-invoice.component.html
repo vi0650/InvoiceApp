@@ -1,0 +1,152 @@
+<div class="invoice-shell" *ngIf="invoice as currentInvoice; else loadingState">
+  <div class="page-toolbar no-print">
+    <button mat-icon-button (click)="goBack()" matTooltip="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <div class="toolbar-actions">
+      <button mat-stroked-button color="primary" (click)="printInvoice()">
+        <mat-icon>print</mat-icon>
+        Print Invoice
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="invoice-page">
+    <section class="hero-section">
+      <div class="brand-block">
+        <div class="brand-mark">IN</div>
+        <div>
+          <p class="eyebrow">Invoice summary</p>
+          <h1>Invoice</h1>
+          <p class="muted">A clean preview with print-ready formatting.</p>
+        </div>
+      </div>
+
+      <div class="hero-meta">
+        <mat-chip class="custom-chip" selected color="primary">{{ currentInvoice.invoiceStatus || 'draft' }}</mat-chip>
+        <div class="meta-grid">
+          <div>
+            <span>Invoice ID</span>
+            <strong>{{ currentInvoice.invoiceId }}</strong>
+          </div>
+          <div>
+            <span>Invoice Date</span>
+            <strong>{{ currentInvoice.invoiceDate | date:'mediumDate' }}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-grid">
+      <div class="detail-card">
+        <p class="section-label">From</p>
+        <h3>Invoice Management</h3>
+        <p>Billing and invoice operations</p>
+        <p>support&#64;invoiceapp.com</p>
+        <p>+91 99999 99999</p>
+      </div>
+
+      <div class="detail-card">
+        <p class="section-label">Bill To</p>
+        <h3>{{ currentInvoice.customer?.customerName }}</h3>
+        <p>{{ currentInvoice.customer?.email }}</p>
+        <p>{{ currentInvoice.customer?.mobileNo }}</p>
+        <p>{{ currentInvoice.customer?.address }}</p>
+      </div>
+    </section>
+
+    <section class="table-section">
+      <div class="section-header">
+        <div>
+          <p class="section-label">Items</p>
+          <h2>Invoice line items</h2>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th class="left">#</th>
+              <th class="left">Product</th>
+              <th class="right">Rate</th>
+              <th class="right">Qty</th>
+              <th class="right">GST</th>
+              <th class="right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of currentInvoice.invoiceItems; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="product-cell">
+                <strong>{{ item.productName }}</strong>
+                <span>Tax included item</span>
+              </td>
+              <td class="right">{{ item.rate | currency:'INR' }}</td>
+              <td class="right">{{ item.qty }}</td>
+              <td class="right">{{ item.gst / 100 | percent:'1.2-2' }}</td>
+              <td class="right">{{ item.amount | currency:'INR' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <div class="info-card">
+        <p class="section-label">Payment details</p>
+        <h3>Preferred transfer details</h3>
+        <div class="info-list">
+          <div>
+            <span>Bank</span>
+            <strong>HDFC Bank</strong>
+          </div>
+          <div>
+            <span>Account no.</span>
+            <strong>1234567890</strong>
+          </div>
+          <div>
+            <span>IFSC</span>
+            <strong>HDFC0001234</strong>
+          </div>
+          <div>
+            <span>Reference</span>
+            <strong>{{ currentInvoice.invoiceId }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="totals-card">
+        <div class="total-row">
+          <span>Subtotal</span>
+          <strong>{{ currentInvoice.subTotal | currency:'INR' }}</strong>
+        </div>
+        <div class="total-row">
+          <span>GST total</span>
+          <strong>{{ currentInvoice.gstAmount | currency:'INR' }}</strong>
+        </div>
+        <div class="total-row grand-total">
+          <span>Grand total</span>
+          <strong>{{ currentInvoice.grandTotal | currency:'INR' }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="notes-card">
+      <p class="section-label">Notes</p>
+      <p>{{ currentInvoice.description || 'Thank you for your business. Please retain this invoice for your records.' }}</p>
+    </section>
+
+    <footer class="invoice-footer">
+      <span>Generated from Invoice Management System</span>
+      <span>{{ currentInvoice.invoiceDate | date:'mediumDate' }}</span>
+    </footer>
+  </mat-card>
+</div>
+
+<ng-template #loadingState>
+  <mat-card class="loading-card">
+    <p>Loading invoice preview...</p>
+  </mat-card>
+</ng-template>

@@ -1,0 +1,23 @@
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  padding: 16px;
+}
+
+.label {
+  color: #6b7280;
+  padding-bottom: 1rem;
+}
+
+.positive {
+  color: #16a34a;
+  padding: 0.4rem;
+}
+
+.overdue h2 {
+  color: #dc2626;
+}

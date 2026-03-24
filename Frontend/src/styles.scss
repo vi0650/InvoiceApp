@@ -1,0 +1,89 @@
+@use '@ngxpert/hot-toast/styles';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body.invoice-print-view {
+  background: #fff;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.mat-drawer-inner-container {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8ea4d9 #f1f1f1;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: #b6c4ec;
+  border-radius: 1px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb:hover {
+  background: #d4e1fe;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body.invoice-print-view {
+    height: auto !important;
+    background: #fff !important;
+  }
+
+  body.invoice-print-view .top-navbar,
+  body.invoice-print-view .sidebar,
+  body.invoice-print-view .menu-accordion,
+  body.invoice-print-view mat-sidenav {
+    display: none !important;
+  }
+
+  body.invoice-print-view .app-container,
+  body.invoice-print-view .sidenav-container,
+  body.invoice-print-view .content-area,
+  body.invoice-print-view .mat-drawer-content,
+  body.invoice-print-view mat-sidenav-content {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  body.invoice-print-view .mat-drawer-container,
+  body.invoice-print-view .mat-drawer-content,
+  body.invoice-print-view .mat-drawer-inner-container {
+    overflow: visible !important;
+    transform: none !important;
+  }
+}

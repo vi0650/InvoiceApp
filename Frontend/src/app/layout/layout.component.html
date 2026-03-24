@@ -1,0 +1,122 @@
+<div class="app-container">
+    <mat-toolbar class="top-navbar mat-elevation-z19">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span class="title">{{shopName | lowercase}}</span>
+        <span class="spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="settings()">
+                <mat-icon>settings</mat-icon>
+                Settings
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                Logout
+            </button>
+        </mat-menu>
+    </mat-toolbar>
+    <mat-sidenav-container class="sidenav-container mat-elevation-z3" [style.marginTop.px]="isMobile() ? 0 : 0">
+        <mat-sidenav #snav class="sidebar mat-elevation-z2" [class.collapsed]="!isMobile() && closeSidebar"
+            [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" [fixedInViewport]="isMobile()"
+            fixedTopGap="56">
+            <!-- <div class="sidebar-header">
+                <img src="assets/user.png" class="avatar">
+                <h3>{{userName}}</h3>
+                <div class="collapse-button">
+                    <button mat-button (click)="accordion().closeAll()">
+                        Collapse All
+                    </button>
+                </div>
+            </div>
+            <mat-divider></mat-divider> -->
+            <mat-accordion multi class="menu-accordion">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>dashboard</mat-icon> Dashboard
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item (click)="closeSidebar()" routerLink="dashboard"
+                        routerLinkActive="active-link">Statistics</a>
+                </mat-expansion-panel>
+
+                <!-- <a mat-list-item (click)="closeSidebar()" routerLink="/layout/stats"
+                    routerLinkActive="active-link">Dashboard</a> -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>badge</mat-icon>Customers
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="customers"
+                            routerLinkActive="active-link">Customer</a>
+                        <!-- <a mat-list-item (click)="closeSidebar()" routerLink="/customer-form"
+                            routerLinkActive="active-link">Add Customer</a> -->
+                    </mat-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>receipt</mat-icon> Invoice
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="invoices"
+                            routerLinkActive="active-link">Invoice</a>
+                    </mat-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>inventory</mat-icon> Products
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="products"
+                            routerLinkActive="active-link">Products</a>
+                        <!-- <a mat-list-item (click)="closeSidebar()" routerLink="/products/products-form"
+                            routerLinkActive="active-link">Add Product</a> -->
+                    </mat-list>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>percent</mat-icon> Gst
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="gst"
+                            routerLinkActive="active-link">Gst</a>
+                        <!-- <a mat-list-item (click)="closeSidebar()" routerLink="/products/products-form"
+                            routerLinkActive="active-link">Add Product</a> -->
+                    </mat-list>
+                </mat-expansion-panel>
+                
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>supervisor_account</mat-icon> Users
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list">
+                        <a mat-list-item (click)="closeSidebar()" routerLink="users"
+                            routerLinkActive="active-link">Users</a>
+                        <!-- <a mat-list-item (click)="closeSidebar()" routerLink="/users/users-form"
+                            routerLinkActive="active-link">Add User</a> -->
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-sidenav>
+        <mat-sidenav-content class="content-area">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

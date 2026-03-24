@@ -1,0 +1,57 @@
+<mat-card class="page-card mat-elevation-z4">
+    <div class="page-header">
+        <button mat-icon-button (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2 class="title">{{ isUpdate ? "Update Customer" : "Add New Customer" }}</h2>
+    </div>
+
+    <form [formGroup]="customerForm" class="form-grid">
+        <mat-form-field>
+            <mat-label>Customer Name</mat-label>
+            <input matInput placeholder="Enter full name" formControlName="customerName">
+            <mat-error
+                *ngIf="customerForm.get('customerName')?.hasError('required') && customerForm.get('customerName')?.touched">
+                Enter Your Name
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Customer@gmail.com" formControlName="email" [email]="true">
+            <mat-error *ngIf="customerForm.get('email')?.hasError('required') && customerForm.get('email')?.touched">
+                Email is <strong>required</strong>.
+            </mat-error>
+            <mat-error *ngIf="customerForm.get('email')?.hasError('email')">
+                Please enter a valid email address.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Mobile Number</mat-label>
+            <input placeholder="Enter 10-digit mobile number" #mobileNo matInput maxlength="10"
+                formControlName="mobileNo">
+            <mat-error
+                *ngIf="customerForm.get('mobileNo')?.hasError('required') && customerForm.get('mobileNo')?.touched">
+                Mobile number is <strong>required</strong>
+            </mat-error>
+            <mat-error
+                *ngIf="customerForm.get('mobileNo')?.hasError('pattern') && customerForm.get('mobileNo')?.touched">
+                Enter valid 10-digit mobile number
+            </mat-error>
+            <mat-hint align="end">{{mobileNo.value.length}} / 10</mat-hint>
+        </mat-form-field>
+        <section class="check-wrapper">
+            <label class="field-label">Active :</label>
+            <div class="status-options">
+                <mat-checkbox class="status-option" formControlName="isActive"></mat-checkbox>
+            </div>
+        </section>
+        <mat-form-field class="full-width">
+            <mat-label>address</mat-label>
+            <textarea matInput rows="2" formControlName="address"></textarea>
+        </mat-form-field>
+    </form>
+    <div class="btn-row">
+        <button mat-flat-button (click)="saveCustomer()">Save</button>
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
+    </div>
+</mat-card>

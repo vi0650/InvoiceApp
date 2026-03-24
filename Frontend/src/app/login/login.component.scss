@@ -1,0 +1,78 @@
+.login-layout {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(270deg, #cedffe, #effdff, #eefaf3);
+  background-size: 600% 600%;
+
+  .login-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 90vw;
+    border-radius: 12px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    background: white;
+    padding: 1rem;
+    flex-direction: column;
+
+    .card-header {
+      text-align: center;
+      padding: 1rem;
+
+      .card-title {
+        font-size: 2rem;
+        padding: 1rem;
+        font-weight: 500;
+      }
+
+      .card-subtitle {
+        font-size: 1rem;
+        font-weight: 100;
+      }
+    }
+
+    .full-width {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .button-wrapper {
+      display: flex;
+      justify-content: center;
+
+      .login-btn {
+        align-self: center;
+        padding: 0;
+        margin: 0;
+        border-radius: 0.7rem;
+        font-size: 1.1rem;
+        width: 15rem;
+        text-transform: uppercase;
+      }
+    }
+
+    mat-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0 0 0;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      letter-spacing: 0.2px;
+
+      p {
+        font-size: 0.9rem;
+
+        .register {
+          text-decoration: underline;
+          color: royalblue;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

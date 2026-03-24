@@ -1,0 +1,147 @@
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f9ff;
+  overflow: hidden;
+}
+
+.top-navbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: white;
+  color: #000;
+  padding: 0 20px;
+  border-bottom: 1px solid #e5e9f5;
+  z-index: 1000;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-left: 2.6rem;
+}
+.spacer {
+  flex: 1;
+}
+
+.sidenav-container {
+  flex: 1;
+  display: flex;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 18rem;
+  background: linear-gradient(270deg, #cefef8, #effdff, #dee5f9);
+  background-size: 600% 600%;
+  border-right: 1px solid #8ea4d9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0%;
+}
+
+.sidenav-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidenav-container::-webkit-scrollbar-thumb {
+  background: #b3c1e6;
+  border-radius: 10px;
+}
+
+.sidenav-container::-webkit-scrollbar-thumb:hover {
+  background: #8ea4d9;
+}
+
+.sidebar-header {
+  text-align: center;
+  padding: 20px 0 10px 0;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.collapse-button {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  padding: 10px;
+}
+
+.menu-accordion {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0 10px 20px 20px;
+}
+
+.menu-accordion mat-expansion-panel {
+  background: transparent;
+  border-radius: 1rem;
+  margin: 5px 0;
+  box-shadow: none !important;
+}
+
+mat-expansion-panel-header {
+  border-radius: 8px;
+  margin: 0.2rem 1rem 0.2rem 1rem;
+}
+
+mat-expansion-panel-header:hover {
+  background: #afc2ed;
+  border-radius: 10px;
+}
+
+mat-expansion-panel-header mat-icon {
+  margin-right: 8px;
+}
+
+mat-list a{
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+mat-list a.active-link {
+  border-radius: 10px;
+  font-weight: 600;
+  background: #c4d3f8;
+}
+
+.content-area {
+  flex: 1;
+  background: white;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  // display: flex;
+  // justify-content:start;
+  // align-items:start;
+}
+
+.content-area::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+  background: #b6c4ec;
+  border-radius: 1px;
+}
+
+.content-area::-webkit-scrollbar-thumb:hover {
+  background: #8ea4d9;
+}

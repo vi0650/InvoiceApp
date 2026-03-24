@@ -1,0 +1,159 @@
+#################################################
+# ROOT STRUCTURE AWARE
+#################################################
+# Assuming:
+# /frontend (Angular)
+# /backend (.NET)
+
+#################################################
+# BUILD OUTPUT (GLOBAL + .NET)
+#################################################
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+bin/
+obj/
+artifacts/
+out/
+dist/
+tmp/
+
+#################################################
+# ANGULAR / NODE
+#################################################
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/cache/
+node_modules/
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+#################################################
+# IDE & TOOLING
+#################################################
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.project
+.classpath
+.settings/
+
+# Allow selected VSCode configs
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+#################################################
+# .NET CORE / SDK
+#################################################
+project.lock.json
+project.fragment.lock.json
+*.runtimeconfig.dev.json
+*.deps.json
+
+#################################################
+# SECRETS / ENV (CRITICAL 🔐)
+#################################################
+.env
+.env.*
+frontend/.env
+backend/.env
+
+appsettings.json
+appsettings.*.json
+!appsettings.Development.template.json
+!appsettings.Production.template.json
+
+**/Properties/launchSettings.json
+
+secrets.json
+*.key
+*.pem
+*.pfx
+*.cer
+*.crt
+
+#################################################
+# DATABASE
+#################################################
+*.mdf
+*.ldf
+*.sqlite
+*.db
+*.bak
+
+#################################################
+# USER FILES / UPLOADS
+#################################################
+backend/wwwroot/uploads/
+backend/wwwroot/temp/
+backend/wwwroot/private/
+
+#################################################
+# AUTH / SECURITY
+#################################################
+jwt.key
+jwt.secret
+oauth.json
+firebase-adminsdk.json
+
+#################################################
+# NUGET
+#################################################
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+#################################################
+# TEST / COVERAGE
+#################################################
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+CodeCoverage/
+coverage/
+coverage.xml
+*.trx
+TestResult.xml
+nunit-*.xml
+
+#################################################
+# LOGS / TEMP
+#################################################
+*.log
+logs/
+temp/
+tmp/
+*.tmp
+*.temp
+*.swp
+*.lock
+~$*
+*~
+
+#################################################
+# ANGULAR EXTRA
+#################################################
+frontend/coverage/
+frontend/.sass-cache/
+frontend/.history/
+
+#################################################
+# OS FILES
+#################################################
+.DS_Store
+Thumbs.db
+desktop.ini

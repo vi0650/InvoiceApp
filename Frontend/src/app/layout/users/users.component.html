@@ -1,0 +1,82 @@
+<div class="user-list-container">
+  <div class="top-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>Search User</mat-label>
+      <input matInput type="text" (keyup)="applyFilter($event)" placeholder="Search by name, email, id">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-fab extended color="primary" [disabled]="!canAddUser()" (click)="addUser()">
+      <mat-icon>person_add</mat-icon><b>Add User</b>
+    </button>
+  </div>
+  <mat-card>
+    <div class="table-wrapper">
+      <!-- <div class="loader-overlay">
+        <mat-progress-bar mode="indeterminate" color="primary">
+        </mat-progress-bar>
+      </div> -->
+      <table mat-table [dataSource]="dataSource" matSort [class.blur]="isLoading">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>no</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-chip color="warn" *ngIf="row.role === 'SuperAdmin'" selected>
+              {{ row.role }}
+            </mat-chip>
+            <mat-chip color="primary" *ngIf="row.role !== 'SuperAdmin'" selected>
+              {{ row.role }}
+            </mat-chip>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Active status</th>
+          <td mat-cell *matCellDef="let row">{{ row.isActive | booleanText}}</td>
+        </ng-container>
+        <ng-container matColumnDef="createdDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.createdAt | date }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated Date</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.updatedAt ? (row.updatedAt | date:'mediumDate') : '-' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button color="primary" matTooltip="Edit Invoice" (click)="editUser(row)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="warn" matTooltip="delete Invoice" (click)="deleteUser(row)"><mat-icon>delete</mat-icon></button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+
+          <tr class="mat-row no-data-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayColumns.length">No data found</td>
+          </tr>
+
+      </table>
+    </div>
+  </mat-card>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
