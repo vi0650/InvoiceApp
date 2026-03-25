@@ -32,13 +32,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - run: npm install -g vercel
+      - name: Install Vercel CLI
+        run: npm install -g vercel
 
+      - name: Deploy
       - run: |
           cd Frontend
-          vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm
+          vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
 
   deploy-backend:
     needs: detect-changes
