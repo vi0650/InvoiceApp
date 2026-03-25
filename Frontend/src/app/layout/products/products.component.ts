@@ -42,11 +42,20 @@ export class ProductsComponent {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (data, filter) =>
-      data.productId.toString().includes(filter) ||
-      data.productName.toLowerCase().includes(filter) ||
-      data.rate.toString().includes(filter) ||
-      data.isActive.toString().includes(filter);
+    this.dataSource.filterPredicate = (data, filter) => {
+      const searchStr = filter.toLowerCase();
+      const nameMatch = data.productName.toLowerCase().includes(searchStr);
+      const rateMatch = data.rate.toString().includes(searchStr);
+      let statusMatch = false;
+      if (searchStr === 'active') {
+        statusMatch = data.isActive === true;
+      } else if (searchStr === 'inactive') {
+        statusMatch = data.isActive === false;
+      } else {
+        statusMatch = data.isActive.toString().includes(searchStr);
+      }
+      return nameMatch || rateMatch || statusMatch;
+    }
   }
 
   canAddProduct(): boolean {
@@ -55,23 +64,23 @@ export class ProductsComponent {
 
   loadProduct() {
     this.productService.getAllProducts().pipe(
-        hotToastObserve(this.toast, {
-          loading: 'Loading...',
-          success: () => '',
-          error: (err) => {
-            if (err.status === 0) {
-              return 'server is offline!';
-            }
-            if (err.status === 401) {
-              return 'Unauthorized access';
-            }
-            if (err.status === 403) {
-              return 'Unauthorized access';
-            }
-            return 'Internal server error !!!';
-          },
-        }),
-      )
+      hotToastObserve(this.toast, {
+        loading: 'Loading...',
+        success: () => '',
+        error: (err) => {
+          if (err.status === 0) {
+            return 'server is offline!';
+          }
+          if (err.status === 401) {
+            return 'Unauthorized access';
+          }
+          if (err.status === 403) {
+            return 'Unauthorized access';
+          }
+          return 'Internal server error !!!';
+        },
+      }),
+    )
       .subscribe({
         next: (res: any) => {
           console.log(res.value.data);

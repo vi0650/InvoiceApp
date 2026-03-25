@@ -45,7 +45,6 @@ export class UsersComponent {
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter) =>
       data.userName.toLowerCase().includes(filter) ||
-      data.userId.toString().includes(filter) ||
       data.role.toString().includes(filter);
   }
 

@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FeatureAccessService } from '../../core/services/feature-access.service';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-settings',
@@ -10,7 +11,7 @@ import { FeatureAccessService } from '../../core/services/feature-access.service
 })
 export class SettingsComponent {
 
-  constructor(private location: Location, private featureAccess: FeatureAccessService) { }
+  constructor(private location: Location, private featureAccess: FeatureAccessService, private toast:HotToastService) { }
 
   readonly panelOpenState = signal(false);
   checked = false;
@@ -20,6 +21,7 @@ export class SettingsComponent {
       .subscribe(value => {
         this.checked = value;
       });
+      this.toast.info("this feature is currently not working",{dismissible:true})
   }
 
   back() {
@@ -27,7 +29,8 @@ export class SettingsComponent {
   }
 
   accessToggle(event: boolean) {
-    this.featureAccess.setProductAccess(event);
+    // this.featureAccess.setProductAccess(event);
+    this.toast.info("this feature is currently not working")
   }
 
 }

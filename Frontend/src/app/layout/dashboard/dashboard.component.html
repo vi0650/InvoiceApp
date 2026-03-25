@@ -1,22 +1,21 @@
-<div class="kpi-grid">
-  <mat-card class="kpi-card">
-    <h3 class="label">Total Revenue</h3>
-    <h2>₹2,45,000</h2>
-    <span class="positive">+12% this month</span>
-  </mat-card>
-
-  <mat-card class="kpi-card">
-    <h3 class="label">Paid Invoices</h3>
-    <h2>124</h2>
-  </mat-card>
-
-  <mat-card class="kpi-card">
-    <h3 class="label">Pending</h3>
-    <h2>18</h2>
-  </mat-card>
-
-  <mat-card class="kpi-card overdue">
-    <h3 class="label">Overdue</h3>
-    <h2>6</h2>
-  </mat-card>
+<div class="spinner-wrapper" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
 </div>
+
+<ng-container *ngIf="!loading">
+
+  <div class="kpi-grid" *ngIf="invoices.length > 0; else emptyState">
+    <mat-card *ngFor="let stat of stats" class="kpi-card" [ngClass]="stat.cardClass">
+      <h3 class="label">{{ stat.label }}</h3>
+      <h2 *ngIf="stat.type === 'currency'">{{ stat.value | currency:'INR':'symbol':'1.0-0' }}</h2>
+      <h2 *ngIf="stat.type === 'count'">{{ stat.value }}</h2>
+    </mat-card>
+  </div>
+
+  <ng-template #emptyState>
+    <mat-card class="empty-state">
+      <p>No invoices available yet. Dashboard state will update automatically when invoice data is added.</p>
+    </mat-card>
+  </ng-template>
+
+</ng-container>

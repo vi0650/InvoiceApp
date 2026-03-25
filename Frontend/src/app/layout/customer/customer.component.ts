@@ -44,7 +44,7 @@ export class CustomerComponent {
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter) =>
       data.customerName.toLowerCase().includes(filter) ||
-      data.customerId.toString().includes(filter) ||
+      data.email.toString().includes(filter) ||
       data.mobileNo.toString().includes(filter);
   }
 

@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, Inject, inject, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { HotToastService } from '@ngxpert/hot-toast';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { hotToastObserve } from '../../core/utils/toast-observer';
-import { InvoiceService } from '../../core/services/invoice.service';
-import { Invoice } from '../../core/models/invoice.model';
-import { INVOICE_COL } from '../../core/data/tabledata/invoiceColumns';
-import { NgUIModule } from '../../shared/ng-ui.module';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { take } from 'rxjs';
+import { INVOICE_COL } from '../../core/data/tabledata/invoiceColumns';
+import { Invoice } from '../../core/models/invoice.model';
+import { InvoiceService } from '../../core/services/invoice.service';
+import { hotToastObserve } from '../../core/utils/toast-observer';
+import { NgUIModule } from '../../shared/ng-ui.module';
 
 @Component({
   selector: 'app-invoice',
@@ -19,18 +19,20 @@ import { take } from 'rxjs';
   styleUrl: './invoice.component.scss'
 })
 export class InvoiceComponent {
-
   readonly path = '/layout/invoices/invoices-form';
   readonly dialog = inject(MatDialog);
 
-  constructor(private invoiceService: InvoiceService, private toast: HotToastService, private router: Router) { }
-
   dataSource = new MatTableDataSource<Invoice | any>();
-  displayColumns = INVOICE_COL
+  displayColumns = INVOICE_COL;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  constructor(
+    private invoiceService: InvoiceService,
+    private toast: HotToastService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadInvoice();
@@ -50,24 +52,23 @@ export class InvoiceComponent {
   }
 
   loadInvoice() {
-    this.invoiceService.getAllInvoices().pipe(
+    this.invoiceService.refreshInvoices().pipe(
       take(1),
       hotToastObserve(this.toast, {
-        loading: "Loading...",
-        success: () => "",
+        loading: 'Loading...',
+        success: () => '',
         error: (err) => {
-          if (err.status === 0) { return 'server is offline!' };
-          if (err.status === 401) { return 'Unauthorized access' };
-          if (err.status === 403) { return 'Unauthorized access' };
-          return "Internal server error !!!";
+          if (err.status === 0) { return 'server is offline!'; }
+          if (err.status === 401) { return 'Unauthorized access'; }
+          if (err.status === 403) { return 'Unauthorized access'; }
+          return 'Internal server error !!!';
         }
       })
     ).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        this.dataSource.data = res.value.data ?? [];
+      next: (invoices: Invoice[]) => {
+        this.dataSource.data = invoices;
       },
-    })
+    });
   }
 
   applyFilter(event: any) {
@@ -84,22 +85,27 @@ export class InvoiceComponent {
       width: '400px',
       data: row.invoiceId,
     });
+
     dialogRef.afterClosed().subscribe((result) => {
-      if(result !== 'confirm') return;
+      if (result !== 'confirm') {
+        return;
+      }
+
       this.invoiceService.deleteInvoice(row.invoiceId)
         .pipe(
           hotToastObserve(this.toast, {
-            loading: "Deleting Invoice...",
-            success: () => `Invoice Deleted!`,
+            loading: 'Deleting Invoice...',
+            success: () => 'Invoice Deleted!',
             error: (err) => {
-              if (err.status === 0) return "server is offline!";
-              if (err.status === 401) return "Unauthorized access";
-              if (err.status === 403) { return 'You don’t have permission to perform this action' };
-              return "Internal server error !!!";
+              if (err.status === 0) { return 'server is offline!'; }
+              if (err.status === 401) { return 'Unauthorized access'; }
+              if (err.status === 403) { return 'You do not have permission to perform this action'; }
+              return 'Internal server error !!!';
             }
           }),
-        ).subscribe(() => this.loadInvoice());
-    })
+        )
+        .subscribe(() => this.loadInvoice());
+    });
   }
 
   addInvoice() {
@@ -107,7 +113,7 @@ export class InvoiceComponent {
   }
 
   viewInvoice(id: string) {
-    this.router.navigate(['/layout/invoices/invoices-show', id])
+    this.router.navigate(['/layout/invoices/invoices-show', id]);
   }
 
   printInvoice(invoice: Invoice) {
@@ -129,9 +135,7 @@ export class invoiceDeleteDialog {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<invoiceDeleteDialog>,
-  ) {
-    // console.log(this.data);
-  }
+  ) {}
 
   confirm() {
     this.dialogRef.close('confirm');

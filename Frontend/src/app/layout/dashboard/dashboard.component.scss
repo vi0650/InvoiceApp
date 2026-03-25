@@ -2,10 +2,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  margin-bottom: 24px;
 }
 
 .kpi-card {
   padding: 16px;
+}
+
+.kpi-card h2 {
+  margin: 0;
 }
 
 .label {
@@ -14,10 +19,30 @@
 }
 
 .positive {
-  color: #16a34a;
+  color: #54cf81;
   padding: 0.4rem;
 }
 
 .overdue h2 {
-  color: #dc2626;
+  color: #ec4f4f;
+}
+
+.empty-state {
+  margin-top: 16px;
+  padding: 16px;
+  color: #6b7280;
+}
+
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+::ng-deep .mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: #0056b3; 
 }

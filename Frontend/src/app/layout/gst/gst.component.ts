@@ -44,7 +44,6 @@ export class GstComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data, filter) =>
-      data.rateId.toString().includes(filter) ||
       data.gstRate.toString().includes(filter);
   }
 

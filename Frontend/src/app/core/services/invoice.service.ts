@@ -1,30 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Invoice } from '../models/invoice.model';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { Invoice } from '../models/invoice.model';
 import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvoiceService {
-
-  private readonly baseUri = `${environment.apiUrl}/Invoice`
+  private readonly baseUri = `${environment.apiUrl}/Invoice`;
   private loaded = false;
-  private invoices$ = new BehaviorSubject<Invoice[]>([]);
+  private readonly invoicesSubject = new BehaviorSubject<Invoice[]>([]);
 
-  constructor(private http: HttpClient) { }
+  readonly invoices$ = this.invoicesSubject.asObservable();
 
-  loadInvoices(){
-    if (this.loaded) return;
-    this.http.get<any>(this.baseUri).subscribe(res =>{
-      this.invoices$.next(res.value?.data ?? []);
-      this.loaded = true;
-    })
+  constructor(private http: HttpClient) {}
+
+  loadInvoices() {
+    if (this.loaded) {
+      return;
+    }
+
+    this.refreshInvoices().subscribe();
   }
 
   getAllInvoices() {
-    return this.http.get<Invoice[]>(this.baseUri)
+    return this.http.get<any>(this.baseUri).pipe(
+      map((res) => res?.value?.data ?? []),
+      tap((invoices: Invoice[]) => {
+        this.invoicesSubject.next(invoices);
+        this.loaded = true;
+      })
+    );
+  }
+
+  refreshInvoices() {
+    this.loaded = false;
+    return this.getAllInvoices();
   }
 
   getInvoiceById(id: string) {
