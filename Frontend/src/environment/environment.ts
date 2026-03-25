@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl: 'https://localhost:7131/api'
-}
+  production: true,
+  apiUrl: 'https://invoiceapp-qqx4.onrender.com/api'
+};
