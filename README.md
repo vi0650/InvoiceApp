@@ -1,32 +1,24 @@
-# 📦 Bill Manager System
+# 📦 Invoice Management System
 
-A full-stack web application for managing bills with a **Super Admin / Admin architecture**. Built using **Angular (Nebular UI)** for the frontend and **.NET Core Web API** with **SQL Server** for the backend.
+A full-stack invoicing solution with user management, inventory, GST, and billing workflows.
+
+- Frontend: `Frontend/` (Angular 19 + Angular Material)
+- Backend: `Invoice/` (.NET 8 Web API)
+- Database: SQL Server (default), cloud database Neon, PostgreSQL support via EF Core provider
+- Auth: JWT-based authentication with role-based access (Admin/User)
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### 🔐 Authentication
-
-* Secure login with JWT authentication
-* Role-based access (Super Admin / Admin)
-
-### 👑 Super Admin
-
-* Create and manage Admin users
-* Automatically generate Admin dashboards
-* Centralized control over the system
-
-### 🧑‍💼 Admin
-
-* Login using provided credentials
-* Manage bills (CRUD operations)
-* Dashboard with bill-related data
-
-### 📊 Bills Management
-
-* Create, update, delete, and view bills
-* Organized data handling with SQL Server
+- User authentication (JWT) and role-based access (Admin / User)
+- Customer management (CRUD)
+- Product management (CRUD)
+- GST settings management
+- Invoice generation, update, and delete
+- Dashboard metrics (sales totals, invoices by status) / static
+- Invoice items with quantity, price, and GST computation
+- API documentation via Swagger (`/swagger`)
 
 ---
 
@@ -34,151 +26,158 @@ A full-stack web application for managing bills with a **Super Admin / Admin arc
 
 ### Frontend
 
-* Angular
-* Nebular UI
-* RxJS
-* Angular Material (optional modules)
+- Angular 19
+- Angular Material 19
+- RxJS
+- Bootstrap icons / google icons
+- @ngneat/overview, @ngxpert/hot-toast
+- TypeScript 5.7
 
 ### Backend
 
-* .NET Core Web API
-* Entity Framework Core
-* SQL Server
+- .NET 8
+- ASP.NET Core Web API
+- Entity Framework Core 8
+- Microsoft.EntityFrameworkCore.SqlServer
+- Npgsql.EntityFrameworkCore.PostgreSQL (optional)
+- AutoMapper
+- JWT Bearer Authentication
+- Swashbuckle / OpenAPI
 
 ---
 
-## ⚙️ Project Structure
+## 📁 Project Structure
 
-```
-BillManager/
-│
-├── frontend/         # Angular App
-│   ├── src/
-│   └── ...
-│
-├── backend/          # .NET Core API
-│   ├── Controllers/
-│   ├── Models/
-│   ├── Services/
-│   └── ...
-│
-└── README.md
-```
+### Root
+
+- `README.md`
+- `LICENSE`
+
+### Frontend (Angular app)
+
+- `Frontend/angular.json`
+- `Frontend/package.json`
+- `Frontend/src/app/`  (main Angular modules and components)
+- `Frontend/src/environment/` (environment variables)
+
+### Backend (ASP.NET Core API)
+
+- `Invoice/Invoice.csproj`
+- `Invoice/Program.cs`
+- `Invoice/appsettings.json`
+- `Invoice/Controllers/` (Auth, Customer, Gst, Invoice, Product, User)
+- `Invoice/Data/InvoiceDbContext.cs`
+- `Invoice/DTOs/` (request/response models)
+- `Invoice/Entities/` (database entities not used in project)
+- `Invoice/Repository/`, `Invoice/Services/`
+- `Invoice/Config/` (dependency injection)
 
 ---
 
-## 🧑‍💻 Setup Instructions
+## 🧰 Setup Instructions
 
-### 🔹 1. Clone Repository
+### 1. Clone repository
 
 ```bash
-git clone https://github.com/your-username/bill-manager.git
-cd bill-manager
+git clone <repository-url>
+cd invoiceProject
 ```
 
----
-
-### 🔹 2. Backend Setup (.NET)
+### 2. Backend setup
 
 ```bash
-cd backend
+cd Invoice
 dotnet restore
 dotnet build
-dotnet run
 ```
 
-* Update `appsettings.json` with your SQL Server connection string
-* Apply migrations (if needed):
+- Configure database connection in `appsettings.json`:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=<your_database>;Trusted_Connection=True;"
+}
+```
+
+- Run migrations (if not included):
 
 ```bash
+dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
----
-
-### 🔹 3. Frontend Setup (Angular)
+- Run API:
 
 ```bash
-cd frontend
-npm install
-ng serve
+dotnet run
 ```
 
-* App will run on: `http://localhost:4200`
+Default API URL: `https://localhost:7068` or `http://localhost:5065` (as configured on my backend)
 
----
+### 3. Frontend setup
 
-## 🔗 API Configuration
+```bash
+cd ..\Frontend
+npm install
+npm start
+```
 
-Update environment file in Angular:
+Default Angular URL: `http://localhost:4200`
+
+Update frontend API endpoint in `Frontend/src/environments/environment.ts`:
 
 ```ts
 export const environment = {
-  apiUrl: 'http://localhost:5065/api'
+  production: false,
+  apiUrl: 'https://localhost:7068/api'
 };
 ```
 
 ---
 
-## 🔒 Environment Variables
+## 🧪 Running & Testing
 
-Do NOT commit sensitive data. Use:
-
-* `appsettings.Development.json` for local config
-* Secret managers for production
-
----
-
-## 📁 .gitignore Notes
-
-Make sure to ignore:
-
-```
-**/bin/
-**/obj/
-**/node_modules/
-**/dist/
-**/Properties/launchSettings.json
-```
+- Backend: `https://localhost:7068/swagger` for interactive API testing.
+- Frontend: `http://localhost:4200` UI tests via Angular CLI.
+- Add unit/e2e tests in related directories (`Frontend/src/app/...` and `Invoice/` service tests).
 
 ---
 
-## 🧪 Testing
+## 🔐 Security Notes
 
-* Backend: Use Swagger (`/swagger`)
-* Frontend: Angular testing tools or manual UI testing
+- Do not commit connection strings or secrets.
+- Use `appsettings.Development.json` for local settings.
+- Use `Secret Manager` or environment variables in production.
 
 ---
 
-## 🚧 Future Improvements
+## 🚀 Deployment Notes
 
-* Role-based permissions (fine-grained)
-* Reports & analytics dashboard
-* PDF invoice generation
-* Email notifications
-* Multi-tenant architecture
+- Backend: host as ASP.NET Core app (IIS / Azure App Service / Docker)
+- Frontend: build (`ng build --prod`) and serve static files or deploy on static hosting
+- Ensure CORS is configured in `Program.cs` for frontend origin.
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repo
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
+1. Fork repo
+2. Create branch `feature/<name>`
+3. Build, test, and commit
+4. Open PR against `main`
 
 ---
 
 ## 📄 License
 
-This project is open-source and available under the MIT License.
+MIT License
 
 ---
 
-## 💡 Author
+## 🙋‍♂️ Contact
 
-Developed with focus on scalable architecture and clean code practices.
+Ask for help or additional integration steps (reporting, emailing, invoices PDF).
 
----
+## give your suggestion
 
-🔥 If you want, I can customize this README specifically for your deployment (IIS + network IP + production setup).
+give your suggestions to improve this project features , design etc.
