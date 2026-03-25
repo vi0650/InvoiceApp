@@ -10,8 +10,14 @@ using Scalar.AspNetCore;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings")["Secret"]);
+var secret = builder.Configuration["JwtSettings:Secret"];
 
+if (string.IsNullOrEmpty(secret))
+{
+    throw new Exception("JWT Secret is missing in configuration");
+}
+
+var key = Encoding.ASCII.GetBytes(secret);
 
 builder.Services.AddAuthorization().AddAuthentication(options =>
 {
