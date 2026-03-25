@@ -1,4 +1,4 @@
-using Invoice.Config;
+﻿using Invoice.Config;
 using Invoice.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -128,6 +128,8 @@ app.MapScalarApiReference(options =>
 //    app.UseSwagger();
 //    app.UseSwaggerUI();
 //}
+
+app.MapGet("/", () => "API is running 🚀 write in your url like this => {Your_live_Url}/scalar");
 
 // middleware pipeline
 app.UseCors("AllowFrontend");
