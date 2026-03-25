@@ -92,7 +92,7 @@ builder.Services.AddCors(options =>
             policy.AllowAnyOrigin()
                   .AllowAnyMethod()
                   .AllowAnyHeader();
-        }
+        }   
         else
         {
             policy.WithOrigins(allowedOrigins)
@@ -110,12 +110,11 @@ var app = builder.Build();
 
 
 //Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger(c =>
 {
-    app.UseSwagger(c =>
-    {
-        c.RouteTemplate = "openapi/{documentName}.json";
-    });
+    c.RouteTemplate = "openapi/{documentName}.json";
+});
+
 app.MapScalarApiReference(options =>
 {
     options.WithTitle("My Api")
@@ -123,8 +122,6 @@ app.MapScalarApiReference(options =>
     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
     .WithClassicLayout();
 });
-    //app.UseSwaggerUI();
-}
 
 //if (app.Environment.IsDevelopment())
 //{
