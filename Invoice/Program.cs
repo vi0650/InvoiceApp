@@ -81,15 +81,24 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // ALLOW CORS
-var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? new string[] { "*" };
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(allowedOrigins)
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        if (allowedOrigins.Contains("*"))
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        }
+        else
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        }
     });
 });
 
